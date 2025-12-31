@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  activityContainer: {
+
+    display: 'flex',
+    flexDirection: 'column',
+
+
+  },
   container: {
     flex: 1,
     backgroundColor: '#121212',
