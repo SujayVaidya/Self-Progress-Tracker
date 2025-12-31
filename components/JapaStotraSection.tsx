@@ -10,7 +10,7 @@ interface JapaStotraSectionProps {
   onStotraChange: (index: number, value: boolean) => void;
 }
 
-export const JapaStotraSection: React.FC<JapaStotraSectionProps> = ({
+const JapaStotraSectionComponent: React.FC<JapaStotraSectionProps> = ({
   japa,
   stotra,
   onJapaChange,
@@ -70,4 +70,6 @@ export const JapaStotraSection: React.FC<JapaStotraSectionProps> = ({
     </View>
   );
 };
+
+export const JapaStotraSection = React.memo(JapaStotraSectionComponent);
 

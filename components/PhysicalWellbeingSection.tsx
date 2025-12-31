@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text } from 'react-native';
 import Checkbox from 'expo-checkbox';
+import React from 'react';
+import { Text, View } from 'react-native';
 import { styles } from '../styles';
 
 interface PhysicalWellbeingSectionProps {
@@ -8,7 +8,7 @@ interface PhysicalWellbeingSectionProps {
   onExerciseChange: (value: boolean) => void;
 }
 
-export const PhysicalWellbeingSection: React.FC<PhysicalWellbeingSectionProps> = ({
+const PhysicalWellbeingSectionComponent: React.FC<PhysicalWellbeingSectionProps> = ({
   isExerciseDone,
   onExerciseChange,
 }) => {
@@ -24,4 +24,6 @@ export const PhysicalWellbeingSection: React.FC<PhysicalWellbeingSectionProps> =
     </View>
   );
 };
+
+export const PhysicalWellbeingSection = React.memo(PhysicalWellbeingSectionComponent);
 

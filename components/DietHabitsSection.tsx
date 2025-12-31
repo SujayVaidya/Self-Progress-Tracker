@@ -10,7 +10,7 @@ interface DietHabitsSectionProps {
   onAfterSunsetChange: (value: boolean) => void;
 }
 
-export const DietHabitsSection: React.FC<DietHabitsSectionProps> = ({
+const DietHabitsSectionComponent: React.FC<DietHabitsSectionProps> = ({
   isAteJunkFood,
   isAteAfterSunset,
   onJunkFoodChange,
@@ -39,4 +39,6 @@ export const DietHabitsSection: React.FC<DietHabitsSectionProps> = ({
     </View>
   );
 };
+
+export const DietHabitsSection = React.memo(DietHabitsSectionComponent);
 

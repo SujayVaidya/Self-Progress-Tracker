@@ -17,7 +17,7 @@ interface AccordionSectionProps {
   children: React.ReactNode;
 }
 
-export const AccordionSection: React.FC<AccordionSectionProps> = ({
+const AccordionSectionComponent: React.FC<AccordionSectionProps> = ({
   title,
   icon,
   isExpanded,
@@ -64,4 +64,6 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
     </View>
   );
 };
+
+export const AccordionSection = React.memo(AccordionSectionComponent);
 

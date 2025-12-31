@@ -1,6 +1,6 @@
 import { ChevronDown } from 'lucide-react-native';
 import moment from 'moment';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   CalendarProvider,
@@ -14,7 +14,7 @@ interface WeeklyCalendarStripProps {
   onDateSelect: (date: string) => void;
 }
 
-export const WeeklyCalendarStrip: React.FC<WeeklyCalendarStripProps> = ({
+const WeeklyCalendarStripComponent: React.FC<WeeklyCalendarStripProps> = ({
   selectedDate,
   onDateSelect,
 }) => {
@@ -28,13 +28,14 @@ export const WeeklyCalendarStrip: React.FC<WeeklyCalendarStripProps> = ({
     setCurrentDate(selectedDate);
   }, [selectedDate]);
 
-  const markedDates = {
+  // Memoize markedDates to prevent unnecessary re-renders
+  const markedDates = useMemo(() => ({
     [selectedDate]: {
       selected: true,
       selectedColor: '#007AFF',
       selectedTextColor: '#FFFFFF',
     },
-  };
+  }), [selectedDate]);
 
   const handleDateSelect = useCallback((date: string) => {
     setCurrentDate(date);
@@ -83,7 +84,8 @@ export const WeeklyCalendarStrip: React.FC<WeeklyCalendarStripProps> = ({
     [currentDate, toggleCalendarExpansion]
   );
 
-  const calendarTheme = {
+  // Memoize calendar theme to prevent recreation on every render
+  const calendarTheme = useMemo(() => ({
     backgroundColor: '#121212',
     calendarBackground: '#1E1E1E',
     textSectionTitleColor: '#AAAAAA',
@@ -147,7 +149,7 @@ export const WeeklyCalendarStrip: React.FC<WeeklyCalendarStripProps> = ({
         fontWeight: '600',
       },
     },
-  };
+  }), []);
 
   const onDateChanged = useCallback((date: string, updateSource: string) => {
     // Only update from explicit day press - ignore all other automatic updates
@@ -173,13 +175,13 @@ export const WeeklyCalendarStrip: React.FC<WeeklyCalendarStripProps> = ({
             renderHeader={renderHeader}
             firstDay={1}
             markedDates={markedDates}
-            onDayPress={(day) => {
+            onDayPress={useCallback((day: any) => {
               // Directly handle day press - this is the primary way to select dates
               const selectedDateString = day.dateString;
               if (selectedDateString && selectedDateString !== currentDate) {
                 handleDateSelect(selectedDateString);
               }
-            }}
+            }, [currentDate, handleDateSelect])}
             theme={calendarTheme}
             style={calendarStyles.expandableCalendar}
             calendarStyle={calendarStyles.calendarStyle}
@@ -202,6 +204,8 @@ export const WeeklyCalendarStrip: React.FC<WeeklyCalendarStripProps> = ({
     </View>
   );
 };
+
+export const WeeklyCalendarStrip = React.memo(WeeklyCalendarStripComponent);
 
 const calendarStyles = StyleSheet.create({
   container: {
